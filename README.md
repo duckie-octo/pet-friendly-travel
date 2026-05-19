@@ -53,28 +53,6 @@ A clean, modern interface that makes planning trips with your pet feel like a br
 | 🌐 Frontend | JavaScript |
 | 🔐 Authentication | JWT (JSON Web Tokens) |
 
----
-
-## 🚀 Getting Started
-
-```bash
-# Clone the repository
-git clone https://github.com/your-username/skyway-travel.git
-
-# Navigate into the project
-cd skyway-travel
-
-# Install dependencies and run
-# (add your setup steps here)
-```
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! If you'd like to improve Skyway Travel, feel free to open an issue or submit a pull request.
-
----
 
 <div align="center">
 
