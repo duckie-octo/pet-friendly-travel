@@ -1,0 +1,106 @@
+-- Part 4: SEED DATA FOR TESTING
+-- Inserting sample data that follows all relationships.
+-- =========================================================================
+
+-- 1. Seed Users
+INSERT INTO Users (First_Name, Last_Name, Email, Phone_Number) VALUES
+('John', 'Doe', 'john.doe@example.com', '555-123-4567'),
+('Jane', 'Smith', 'jane.smith@email.co.uk', '44-20-7946-0958'),
+('Lan', 'Doan', 'huong.doan@sjsu.edu', '99-99-9999-9999'); --Added
+
+
+-- 2. Seed Agents
+INSERT INTO Agents (Name, Email, Phone) VALUES
+('Global Travel Solutions', 'support@gtstravel.com', '1-800-555-0199'),
+('Independent Agent Bob', 'bob@bobsbookings.biz', '555-987-6543'),
+('Travel Expert Alice', 'alice@travel.com', '555-555-5555'); -- Added
+
+-- 3. Seed Hotel_Master (Master Hotel data)
+-- Let's define some famous places (Pet_Friendly: 1 = yes, 0 = no).
+INSERT INTO Hotel_Master (Hotel_Name, Address, City, Zip_Code, Country, Email, Pet_Friendly, Pet_Fee_Per_Night, Max_Pets) VALUES
+('The Plaza', '768 5th Ave', 'New York', '10019', 'USA', 'reservations@theplazany.com', 0, NULL, NULL),
+('The Savoy', 'Strand', 'London', 'WC2R 0EU', 'UK', 'savoy.reservations@fairmont.com', 1, 75.00, 2),
+('Hotel California', '123 Sunset Blvd', 'Los Angeles', '90210', 'USA', 'youcanneverleave@hc.com', 1, 35.00, 2),
+('Le Meurice', '228 Rue de Rivoli', 'Paris', '75001', 'France', 'reservations@meurice.com', 1, 80.00, 1),
+('Hyatt Regency Embarcadero', '5 Embarcadero Center', 'San Francisco', '94111', 'USA', 'sf.regency@hyatt.com', 0, NULL, NULL),
+('Shinjuku Pet-Friendly Inn', '2-14-13 Kabukicho', 'Tokyo', '160-0021', 'Japan', 'pets@shinjuku-inn.jp', 1, 20.00, 3);
+
+-- 4. Seed Airline_Master (Major Carriers)
+INSERT INTO Airline_Master (Airline_Code, Airline_Name) VALUES
+('AA', 'American Airlines'),
+('BA', 'British Airways'),
+('DL', 'Delta Air Lines'),
+('VS', 'Virgin Atlantic'),
+('AF', 'Air France'), -- Added
+('JL', 'Japan Airlines'); -- Added
+
+
+-- 5. Seed Airport_Master (Major Hubs)
+INSERT INTO Airport_Master (Airport_Code, Airport_Name, City, Country) VALUES
+('JFK', 'John F. Kennedy International', 'New York', 'USA'),
+('SFO', 'San Francisco International', 'San Francisco', 'USA'),
+('LHR', 'London Heathrow', 'London', 'UK'),
+('LAX', 'Los Angeles International', 'Los Angeles', 'USA'),
+('CDG', 'Charles de Gaulle Airport', 'Paris', 'France'),
+('HND', 'Tokyo Haneda Airport', 'Tokyo', 'Japan'); -- Added
+
+-- SEED MAIN TRANSACTIONS 
+-- Crucial: We must generate the Bookings first to get the Booking_Ids needed
+-- for all child reservation tables.
+
+-- 6. Seed Bookings
+-- John Doe (User 1) booked directly a New York to London Trip (3 weeks).
+INSERT INTO Bookings (User_Id, Agent_Id, Start_Date, End_Date) VALUES
+(1, NULL, '2024-06-01', '2024-06-21'), -- Returns Booking_Id 1
+(3, NULL, '2024-06-01', '2024-06-05'); -- Returns Booking_Id 3
+
+-- Jane Smith (User 2) booked a trip through Global Travel (Agent 1) to LA (10 days).
+INSERT INTO Bookings (User_Id, Agent_Id, Start_Date, End_Date) VALUES
+(2, 1, '2024-08-15', '2024-08-25'); -- Returns Booking_Id 2
+
+
+-- SEED SUB-RESERVATIONS (LINKED TO BOOKINGS) 
+
+-- 7. Seed Hotel_Reservations
+-- Booking 1 (John in London) staying at The Savoy (Hotel_Code 2).
+INSERT INTO Hotel_Reservations (Booking_Id, Hotel_Code, Check_In_Date, Check_In_Time, Check_Out_Date, Rate) VALUES
+(1, 2, '2024-06-02', '14:00', '2024-06-19', 450.00),
+(3, 6, '2024-06-02', '14:00', '2024-06-05', 450.00); -- Booking 3 (Lan in Tokyo) staying at a hotel in Tokyo (Hotel_Code 6).
+
+-- Booking 2 (Jane in LA) staying at Hotel California (Hotel_Code 3).
+INSERT INTO Hotel_Reservations (Booking_Id, Hotel_Code, Check_In_Date, Check_Out_Date, Rate) VALUES
+(2, 3, '2024-08-15', '2024-08-25', 299.99);
+
+
+-- 8. Seed Flight_Reservations
+-- Booking 1 (John NY to London). Round trip.
+INSERT INTO Flight_Reservations (Booking_Id, Airline_Code, Flight_Number, Departure_Date, Departure_Time, Arrive_Date, Arrive_Time, Rate, Origin_Airport_Code, Destination_Airport_Code) VALUES
+(1, 'BA', '112', '2024-06-01', '18:30', '2024-06-02', '06:30', 850.00, 'JFK', 'LHR'), -- Outbound
+(1, 'BA', '113', '2024-06-21', '10:15', '2024-06-21', '13:10', 850.00, 'LHR', 'JFK'), -- Inbound (Rate is often for the whole trip, but this table tracks specific leg costs/rates).
+(3, 'BA', '113', '2024-06-21', '10:15', '2024-06-21', '13:10', 850.00, 'LHR', 'JFK'); -- Added Booking 3 (Lan Tokyo to Paris). Round trip.
+
+-- Booking 2 (Jane NY to LA). One way Delta flight.
+INSERT INTO Flight_Reservations (Booking_Id, Airline_Code, Flight_Number, Departure_Date, Departure_Time, Arrive_Date, Arrive_Time, Rate, Origin_Airport_Code, Destination_Airport_Code) VALUES
+(2, 'DL', '45', '2024-08-15', '07:00', '2024-08-15', '10:05', 315.50, 'JFK', 'LAX');
+
+-- Booking 3 (Lan in Tokyo) booked a one-way Delta flight.
+INSERT INTO Flight_Reservations (Booking_Id, Airline_Code, Flight_Number, Departure_Date, Departure_Time, Arrive_Date, Arrive_Time, Rate, Origin_Airport_Code, Destination_Airport_Code) VALUES
+(3, 'DL', '45', '2024-06-04', '07:00', '2024-06-04', '10:05', 315.50, 'HND', 'CDG');
+
+-- 9. Seed Activity_Reservations
+-- Booking 1 (John in London) did a Thames Cruise.
+INSERT INTO Activity_Reservations (Booking_Id, Activity_Name, Location, Activity_Date, Price) VALUES
+(1, 'Thames River Sunset Cruise', 'Tower Pier, London', '2024-06-05', 75.00);
+
+-- Booking 2 (Jane in LA) booked a studio tour.
+INSERT INTO Activity_Reservations (Booking_Id, Activity_Name, Location, Activity_Date, Price) VALUES
+(2, 'Warner Bros Studio Tour', 'Burbank, CA', '2024-08-18', 69.00),
+(2, 'Santa Monica Pier Bike Rental', 'Santa Monica', '2024-08-20', 25.00); -- Two activities on one trip
+
+-- Booking 3 (Lan in Tokyo) booked a city tour.
+INSERT INTO Activity_Reservations (Booking_Id, Activity_Name, Location, Activity_Date, Price) VALUES
+(3, 'Tokyo City Sightseeing Tour', 'Tokyo', '2024-06-04', 120.00);
+-- =========================================================================
+-- Complete: 9 tables built, populated with related test data.
+-- =========================================================================
+

@@ -1,0 +1,14 @@
+# Dependencies
+node_modules/
+server/.venv/
+
+# Environment & local DB
+.env
+*.db
+server/fallback.db
+
+# Build & tooling
+client/dist/
+__pycache__/
+*.pyc
+.cursor/

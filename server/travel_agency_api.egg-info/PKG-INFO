@@ -1,0 +1,28 @@
+Metadata-Version: 2.4
+Name: travel-agency-api
+Version: 0.1.0
+Summary: Add your description here
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+Requires-Dist: amadeus>=12.0.0
+Requires-Dist: email-validator>=2.2.0
+Requires-Dist: fastapi>=0.135.3
+Requires-Dist: python-dotenv>=1.2.2
+Requires-Dist: sqlalchemy>=2.0.48
+Requires-Dist: uvicorn>=0.42.0
+
+# Travel Agency API
+
+Run the API from the project root with either of these commands:
+
+```bash
+uv run uvicorn app.main:app --reload
+```
+
+or:
+
+```bash
+uv run uvicorn main:app --reload
+```
+
+`main.app:app` is not a valid import path in this repository.

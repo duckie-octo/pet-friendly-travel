@@ -1,0 +1,125 @@
+/* PawTrip / Travel Agency design tokens */
+:root {
+  --font-display: 'Georgia', 'Times New Roman', serif;
+  --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  --cream: #f8f7f4;
+  --white: #ffffff;
+  --ink: #1a1208;
+  --ink-muted: #5c4f3a;
+  --ink-faint: #8b7355;
+
+  --sand-50: #faf9f6;
+  --sand-100: #f0ece4;
+  --sand-200: #e0d9ce;
+
+  --forest-50: #eef5ee;
+  --forest-100: #d4e8d4;
+  --forest-400: #4a9a4a;
+  --forest-500: #2d5e2d;
+  --forest-600: #1f4520;
+
+  --terracotta-100: #fde8e2;
+  --terracotta-500: #c05c3e;
+
+  --sky-100: #e8f4fd;
+  --sky-500: #1a6bdb;
+
+  --accent: #1a6bdb;
+  --accent-light: #e8f0fd;
+  --accent-dark: #0d3e82;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-full: 999px;
+
+  --shadow-sm: 0 1px 3px rgba(26, 18, 8, 0.06);
+  --shadow-card: 0 2px 12px rgba(26, 18, 8, 0.07);
+  --shadow-md: 0 4px 20px rgba(26, 18, 8, 0.1);
+  --shadow-lg: 0 12px 40px rgba(26, 18, 8, 0.14);
+
+  --sidebar-width: 260px;
+
+  --duration-fast: 150ms;
+  --duration-base: 220ms;
+  --duration-slow: 400ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--cream);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
